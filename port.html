@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        /* Base Styles */
+      
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .about-content {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            text-align: left; /* Ensure text is aligned to the left */
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .avatar img {
+            width: 10px;
+            height: 10px;
+            
+        }
+
+        .about-text {
+            flex: 1; /* Make the text take available space */
+        }
+
+        .about-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .about-buttons a {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 1px solid black;
+            color: black;
+            font-size: 14px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .about-buttons a:hover {
+            background-color: black;
+            color: #fff;
+        }
+
+        body.dark .about-buttons a {
+    background-color: #FEBA01;
+    color: #000; /* Black text color */
+    border-color: #000; /* Black border */
+}
+
+body.dark .about-buttons a:hover {
+    background-color: white; /* Black background on hover */
+    color: black; /* White text on hover */
+}
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body.dark {
+            background-color: #121212;
+            color: #d1d1d1;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Scroll Progress Bar */
+        #progressBar {
+            height: 4px;
+            background-color:#FEBA01;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            z-index: 1000;
+        }
+
+        /* Header */
+        header {
+            background-color: #fff;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s;
+        }
+      
+
+        header.dark {
+            background-color: #1f1f1f;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap:40px;
+        }
+
+        nav ul li button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: black;
+            transition: color 0.3s;
+            padding: 10px;
+        }
+
+        nav ul li button:hover {
+            color: black;
+            
+            border-radius: 5px;
+            background-color: #FEBA01;
+            box-shadow: 2px 2px 5px gray;
+        }
+
+        .toggle-container {
+            position: relative;
+            width: 50px;
+            height: 25px;
+            background: #ddd;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+
+        .toggle-container.dark {
+            background: black;
+        }
+
+        .toggle-circle {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 19px;
+            height: 19px;
+            background: #fff;
+            border-radius: 50%;
+            transition: left 0.3s;
+        }
+
+        .toggle-container.dark .toggle-circle {
+            left: 26px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+    
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            padding: 50px;
+            margin: 20px auto;
+            width: 70%;
+            text-align: left;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .dark .card {
+            background-color: #1f1f1f;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .skills-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 15px 0;
+    position: relative;
+}
+
+.skills-bar label {
+    min-width: 100px;
+    font-weight: bold;
+}
+
+.bar-container {
+    flex: 1;
+    height: 20px;
+    background-color: #ddd;
+    position: relative;
+    border-radius: 5px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.bar-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: var(--fill);
+    background-color: #FEBA01;
+    border-radius: 5px;
+    z-index: 1;
+    transition: width 0.3s ease;
+}
+
+.percentage {
+    position: absolute;
+    right: 10px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    z-index: 2;
+}
+
+body.dark .bar-container::after {
+    background-color: #FEBA01; /* Yellow for dark mode */
+}
+        .list-item {
+            margin: 10px 0;
+        }
+
+        .list-item strong {
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+        }
+
+        .dark footer {
+            background-color: #1f1f1f;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card {
+                width: 90%;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .about-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div id="progressBar"></div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <ul>
+                <li><button onclick="scrollToSection('about')">About</button></li>
+                <li><button onclick="scrollToSection('experience')">Experience</button></li>
+                <li><button onclick="scrollToSection('projects')">Projects</button></li>
+                <li><button onclick="scrollToSection('education')">Education</button></li>
+                <li><button onclick="scrollToSection('skills')">Skills & Certificates</button></li>
+                <li><button onclick="scrollToSection('contact')">Contact</button></li>
+            </ul>
+        </nav>
+        <div id="themeToggle" class="toggle-container">
+            <div class="toggle-circle"></div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- About Section -->
+        <div class="card" id="about">
+            <div class="about-content">
+                <!--div class="">
+                    <img src="my_photo.jpg" height="190px" width="130px" alt="Manan Sharma">
+                </div>-->
+                <div class="about-text">
+                    <h1>Manan Sharma</h1>
+                    <p>Experienced software developer adept in all stages of advanced software and web development. Knowledgeable in user interface, testing, and debugging processes. 
+                       Bringing forth expertise in design, installation, testing and maintenance of systems. Equipped with a diverse and promising skill-set.
+                       Proficient in an assortment of technologies, including Java, SpringBoot, Python, MySql, JavaScript, React js, and Microsoft SQL Server.
+                       Able to effectively self-manage during independent projects, as well as collaborate in a team setting.
+
+                    </p>
+                </div>
+            </div>
+            <div class="about-buttons">
+                <a href="https://www.linkedin.com/in/manan-sharma-7a827220a/" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" style="width: 16px;">
+                    LinkedIn
+                </a>
+                <a href="https://github.com/Manan10Sharma" target="_blank">
+                    <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="GitHub" style="width: 16px;">
+                    GitHub
+                </a>
+            </div>
+        </div>
+
+        <!-- Experience Section -->
+        <div class="card" id="experience">
+            <h2>Internships/Work Experience</h2> <hr><br>
+            <p><strong> <li>MedTerm RCM Pvt. Ltd. | Sep. 2022 – Nov. 2024 | Raisinghnagar </li></strong></p>
+            <p><i><strong>IT Executive</strong></i></p><br>
+            <ul>
+                <li>Planned, developed, tested, deployes, and maintained softwares.</li>
+                <li>Collaborated with cross-functional teams to support IT infrastructure and operations.</li>
+                <li>Assisted in managing IT projects, ensuring adherence to timelines and quality standards.</li>
+                <li>Provided technical support and troubleshooting for hardware and software issues.</li>
+                <li>Handled systed management and data security.</li>
+                <li>Followed policies and procedures related to application methods and quality standards at all times.</li>
+            </ul> <br>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="card" id="projects">
+            <h2>Projects</h2><hr><br>
+                <li class="list-item;" >
+                   <strong>HOSPITAL MANAGEMENT SYSTEM</strong>
+                   <i><p><u>Python, Django, HTML, CSS, JavaScript | Sep 2020 - Dec 2020</p></i></u> <br>
+                    <li>Developed using Java and MySQL, including modules for patient registration, appointment scheduling, and medical records management.</li>
+                    <li>Implemented role-based access control (RBAC) for enhanced data security and privacy.</li>
+                    <li>Streamlined workflow processes, reducing administrative tasks by 25%.</li>                        
+                </li><br><hr><hr><hr>
+
+                <li class="list-item">
+                    <strong>Batch Processing</strong>
+                    <p><i><u>Java, Spring Boot, RESTful, MySQL | July 2021 - Sep 2021</u></i></p><br>
+                    <li><strong>Spring Batch Framework:</strong> Utilized Spring Batch to orchestrate and manage batch processing workflows,
+                        allowing for the efficient insertion of records into the Database.
+                        </li>
+                    <li><strong>Scheduling:</strong> Integrated the execution of batch job to RESTful calls via file uploads</li>
+                    <li><strong>Readers and Writers:</strong>  Integrated item readers to read input data from various sources, such as files
+                        or databases, and item writers to persist processed data.</li>
+                </li><br> <hr><hr><hr>
+
+                <li class="list-item">
+                    <strong>Social Media Analytics Tool</strong>
+                    <p><u><i>HTML, CSS, JavaScript | Sep 2024 - Dec 2024 </i></u></p> <br>
+                    <li>A collection of mini web applications showcasing various functionalities built using HTML, CSS, and JavaScript.</li>
+                    <li>Created using Python for data collection and analysis, integrated with APIs for real-time data fetching and machine learning-based sentiment analysis.</li>
+                    <li>Generated insights leading to a 20% increase in user engagement for a client's social media campaign.</li>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Education Section -->
+        <div class="card" id="education">
+            <h2>Education</h2><hr><br>
+            <ul>
+                <li><strong>Bachelor of Computer Application (MGSU: Bachelor Degree)</strong> <br><strong>Year:</strong> 2022<br><strong>CGPA:</strong>8.3</li> <br>
+                <li><strong>12th Grade (CBSE: Higher Secondary)</strong> <br><strong>Year:</strong> 2019<br><strong>Percentage:</strong> 65.2%</li><br>
+            </ul>
+        </div>
+
+        <!-- Skills Section -->
+        <div class="card" id="skills">
+            <h2>Skills & Certificates</h2>
+            <hr><br>
+            <div class="skills-bar">
+                <label>Java</label>
+                <span class="bar-container" style="--fill: 80%;">
+                    <span class="percentage">80%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>Spring Boot</label>
+                <span class="bar-container" style="--fill: 75%;">
+                    <span class="percentage">75%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>Hibernate</label>
+                <span class="bar-container" style="--fill: 60%;">
+                    <span class="percentage">60%</span>
+                </span>  
+            </div>    
+            <div class="skills-bar">
+                <label>MySQL</label>
+                <span class="bar-container" style="--fill: 50%;">
+                    <span class="percentage">80%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>Oracle</label>
+                <span class="bar-container" style="--fill: 45%;">
+                    <span class="percentage">60%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>MongoDB</label>
+                <span class="bar-container" style="--fill: 60%;">
+                    <span class="percentage">60%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>HTML5,CSS3 </label>
+                <span class="bar-container" style="--fill: 80%;">
+                    <span class="percentage">80%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>JavaScript</label>
+                <span class="bar-container" style="--fill: 80%;">
+                    <span class="percentage">80%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>ReactJS</label>
+                <span class="bar-container" style="--fill: 80%;">
+                    <span class="percentage">80%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>Manual Testing</label>
+                <span class="bar-container" style="--fill: 80%;">
+                    <span class="percentage">70%</span>
+                </span>
+            </div>
+            <div class="skills-bar">
+                <label>Automation Testing (Selenium)</label>
+                <span class="bar-container" style="--fill: 80%;">
+                    <span class="percentage">70%</span>
+                </span>
+            </div>
+
+            <div class="card" id="contact">
+                <h2>Certifications</h2><hr><br>
+                <ul>
+                    <li>Rajasthan State Certificate in Information Technology (RS-CIT) (June-2019).</li>
+                    <li>OpenWeaver - Basics of Python Programming (Oct-2023).</li>
+                    <li>OpenWeaver - Basics of JavaScript Programming (Sep-2023).</li>
+                    <li>HP Life - Certificate of Completion - AI for Beginners (Mar-2025).</li>
+                    <li>HP Life - Certificate of Completion - Business Email (Mar-2025).</li>
+                    <li>IDP - International English Language Testing System (IELTS) (Dec-2022).</li>
+                    <li>KodNest - Full Stack Development - Completed a six-month training program in Java & Python Full Stack Development, covering Competitive Programming, Web Development, SQL, and Testing, equipping learners for a versatile tech career (2025).</li>
+                </ul>
+            </div>            
+        </div>
+
+
+        <!-- Contact Section -->
+        <div class="card" id="contact">
+            <h2>Contact</h2><hr><br>
+            <p>Email: <a href="manansharma1151@gmail.com">manansharma1151@gmail.com</a></p>
+            <p>Phone: +91 7231977000</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Manan Sharma. All rights reserved.</p>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark');
+            themeToggle.classList.toggle('dark');
+        });
+
+        // Scroll Progress
+        const progressBar = document.getElementById('progressBar');
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrolled = (scrollTop / docHeight) * 100;
+            progressBar.style.width = `${scrolled}%`;
+        });
+
+        // Scroll to Section
+        function scrollToSection(id) {
+            const section = document.getElementById(id);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
